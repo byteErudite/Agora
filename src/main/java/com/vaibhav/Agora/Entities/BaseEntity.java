@@ -19,24 +19,25 @@ public class BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** The created by user. */
-    @Column(name = "addedby", nullable = false, insertable = true, updatable = false)
+    @Column(name = "added_by", nullable = false, insertable = true, updatable = false)
     @CreatedBy
     private String createdByUser;
 
     /** The creation time. */
-    @Column(name = "addeddate", nullable = false, insertable = true, updatable = false)
+    @Column(name = "added_date", nullable = false, insertable = true, updatable = false)
     @CreatedDate
     private Instant creationTime;
 
     /** The modified by user. */
-    @Column(name = "lastmodifiedby", nullable = false, insertable = true, updatable = true)
+    @Column(name = "last_modified_by", nullable = false, insertable = true, updatable = true)
     @LastModifiedBy
     private String modifiedByUser;
 
-    @Column(name = "lastmodifieddate", nullable = false, insertable = true, updatable = true)
+    @Column(name = "last_modified", nullable = false, insertable = true, updatable = true)
     @LastModifiedDate
     private Instant modificationTime;
 
+    @Column(name = "is_deleted", nullable = false, insertable = true, updatable = true)
     private boolean isDeleted;
 
     public BaseEntity() {

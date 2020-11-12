@@ -14,9 +14,12 @@ import javax.persistence.Table;
 import com.vaibhav.Agora.Common.Constants.BookCategory;
 import com.vaibhav.Agora.Common.Constants.Genre;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 @Entity
-@Table(name = "Book")
+@Component
+@Table(name = "book")
 public class Book extends BaseEntity implements  Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,10 +28,9 @@ public class Book extends BaseEntity implements  Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     private UUID bookId;
-    @Column(name = "title")
     private String title;
 
-    @Column(name = "authorId", insertable = false, updatable = false)
+
     private UUID authorId;
 
     @Enumerated(EnumType.STRING)
@@ -37,8 +39,10 @@ public class Book extends BaseEntity implements  Serializable {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
+
     private String publicationName;
     private String edition;
+
 
     private Double averageRating;
 

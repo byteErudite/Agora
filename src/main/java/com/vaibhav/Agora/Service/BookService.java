@@ -1,5 +1,6 @@
 package com.vaibhav.Agora.Service;
 
+import com.vaibhav.Agora.DTOEntities.BookDTO;
 import com.vaibhav.Agora.Entities.Book;
 import org.springframework.http.ResponseEntity;
 
@@ -10,6 +11,6 @@ public interface BookService {
 
     public List<Book> getAllBooks();
 
-    public ResponseEntity<Map<String, String>> insertBooks();
+    public Map<String, String> addBooks(List<BookDTO> books);
 
 }

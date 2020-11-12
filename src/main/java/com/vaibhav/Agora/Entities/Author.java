@@ -24,8 +24,19 @@ public class Author extends BaseEntity implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
     private UUID authorId;
+
     private String name;
+
+
     private String penName;
+
+    public Author(UUID authorId, String name, String penName, List<Book> books) {
+        this.authorId = authorId;
+        this.name = name;
+        this.penName = penName;
+        this.books = books;
+    }
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "authorId", nullable = true)
