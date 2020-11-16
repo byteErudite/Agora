@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import com.vaibhav.Agora.Common.Constants.BookCategory;
 import com.vaibhav.Agora.Common.Constants.Genre;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Entity

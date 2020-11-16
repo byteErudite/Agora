@@ -32,10 +32,8 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
-    private void validateBooks(List<Book> books) {
-        for (Book book : books) {
-
-        }
+    private boolean isValid(BookDTO book) {
+        return true;
     }
 
     @Override
@@ -44,6 +42,7 @@ public class BookServiceImpl implements BookService {
         Map<String,String> response = new HashMap<>();
         books.stream().forEach(bookDTO -> {
             try {
+                isValid(bookDTO);
                 bookRepository.save(bookMapper.BookDTOToBookMapper(bookDTO));
             } catch (Exception e) {
                failedBooks.add(bookDTO.getBookId().toString());

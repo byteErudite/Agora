@@ -1,6 +1,6 @@
 package com.vaibhav.Agora.Repositories;
 
-import com.vaibhav.Agora.Entities.Author;
+import com.vaibhav.Agora.Entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,5 +9,6 @@ import java.util.UUID;
 
 @Repository
 @Transactional
-public interface AuthorRepository extends JpaRepository<Author, UUID> {
+public interface RoleRepository extends JpaRepository<Role, UUID> {
+
 }
