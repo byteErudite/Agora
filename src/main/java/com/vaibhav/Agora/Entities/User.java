@@ -2,23 +2,39 @@ package com.vaibhav.Agora.Entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
-public class User extends BaseEntity {
+@Table(name = "User", schema = "public")
+public class User extends BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")
+    @Column(name = "user_id")
     private UUID userId;
+
     private String username;
     private String password;
     private String email;
     private boolean isActive;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private Set<Rating> ratings;
 
     public User() {
     }

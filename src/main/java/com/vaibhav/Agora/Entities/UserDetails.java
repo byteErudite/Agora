@@ -8,13 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "user_detail")
-public class UserDetails  extends BaseEntity {
+public class UserDetails  extends BaseEntity  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")

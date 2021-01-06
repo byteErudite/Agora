@@ -4,6 +4,8 @@ import com.vaibhav.Agora.DTOEntities.BookDTO;
 import com.vaibhav.Agora.Entities.Book;
 import com.vaibhav.Agora.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +30,11 @@ public class BookController {
     BookService bookService;
 
     @GetMapping(value = FORWARD_SLASH + ALL)
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+    public ResponseEntity<Page<Book>> getAllBooks(Pageable pageable) throws Exception {
+        return new ResponseEntity<>(bookService.getAllBooks(pageable), HttpStatus.OK);
     }
 
-    @PostMapping(value = FORWARD_SLASH + ADD, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = FORWARD_SLASH + ADD, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> addBook(@RequestBody final List<BookDTO> books) {
         return new ResponseEntity(bookService.addBooks(books), HttpStatus.OK);
     }

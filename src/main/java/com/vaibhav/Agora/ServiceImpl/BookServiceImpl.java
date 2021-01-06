@@ -6,7 +6,8 @@ import com.vaibhav.Agora.Repositories.BookRepository;
 import com.vaibhav.Agora.Entities.Book;
 import com.vaibhav.Agora.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,9 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.vaibhav.Agora.Common.Constants.Constants.FAILED_BOOK_IDS;
-import static com.vaibhav.Agora.Common.Constants.Constants.FAILURE;
-import static com.vaibhav.Agora.Common.Constants.Constants.MESSAGE;
-import static com.vaibhav.Agora.Common.Constants.Constants.SUCCESS;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -28,9 +26,15 @@ public class BookServiceImpl implements BookService {
     BookMapper bookMapper;
 
     @Override
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(Pageable pageable) throws Exception {
+        try {
+            return bookRepository.findAll(pageable);
+        } catch(Exception e) {
+            throw new Exception("Error while fetching data");
+        }
+
     }
+
 
     private boolean isValid(BookDTO book) {
         return true;

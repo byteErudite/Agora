@@ -1,9 +1,7 @@
 package com.vaibhav.Agora.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.proxy.NoOp;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +14,8 @@ import static com.vaibhav.Agora.Common.Constants.Constants.ADD;
 import static com.vaibhav.Agora.Common.Constants.Constants.ALL;
 import static com.vaibhav.Agora.Common.Constants.Constants.BOOK;
 import static com.vaibhav.Agora.Common.Constants.Constants.FORWARD_SLASH;
+import static com.vaibhav.Agora.Common.Constants.EndPoints.ADD_BOOK;
+import static com.vaibhav.Agora.Common.Constants.EndPoints.GET_ALL_BOOKS;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -39,9 +39,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers(FORWARD_SLASH + BOOK + ALL).hasRole("USER")
-                 .antMatchers(FORWARD_SLASH + BOOK + ALL, FORWARD_SLASH + BOOK + ADD ).hasRole("ADMIN")
-                .and().formLogin();
+        http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().formLogin();
+//        http.csrf().disable().authorizeRequests()
+//                .antMatchers(GET_ALL_BOOKS).hasAnyRole("USER","ADMIN")
+//                 .antMatchers(ADD_BOOK).hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//                .and().formLogin();
     }
 }

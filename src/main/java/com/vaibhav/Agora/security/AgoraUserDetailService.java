@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,9 +31,10 @@ public class AgoraUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        optionalUser.orElseThrow(() -> new UsernameNotFoundException("Invalid username : " + username));
-        User user = optionalUser.get();
+        User user = userRepository.findByUsername(username);
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("Invalid username : " + username);
+        }
         List<UUID> roleIds = userRoleRepository.getUserRolebyUserId(user.getUserId());
         List<AssignedRole> roles = roleRepository.findAllById(roleIds).stream().map(Role::getRole).collect(Collectors.toList());
         return new AgoraUserDetail(user, roles);

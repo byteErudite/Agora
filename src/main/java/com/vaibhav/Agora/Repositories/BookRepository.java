@@ -1,8 +1,8 @@
 package com.vaibhav.Agora.Repositories;
 
 import com.vaibhav.Agora.Entities.Book;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;

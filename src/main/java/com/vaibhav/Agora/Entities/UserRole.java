@@ -6,11 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "user_role")
-public class UserRole extends BaseEntity {
+public class UserRole extends BaseEntity  implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     @GeneratedValue(generator = "uuid")

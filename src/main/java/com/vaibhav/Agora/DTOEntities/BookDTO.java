@@ -1,12 +1,17 @@
 package com.vaibhav.Agora.DTOEntities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vaibhav.Agora.Common.Constants.BookCategory;
 import com.vaibhav.Agora.Common.Constants.Genre;
 import com.vaibhav.Agora.Entities.Author;
+import com.vaibhav.Agora.Entities.BaseEntity;
 
+import java.io.Serializable;
 import java.util.UUID;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BookDTO extends BaseEntity implements Serializable {
+    public static final long serialVersionUID = 1L;
 
-public class BookDTO {
     private UUID bookId;
     private String title;
     private Author author;
@@ -14,6 +19,9 @@ public class BookDTO {
     private Genre genre;
     private String publication;
     private String edition;
+
+    public BookDTO() {
+    }
 
     public BookDTO(String title, Author author, BookCategory category, Genre genre, String publication, String edition) {
         this.title = title;

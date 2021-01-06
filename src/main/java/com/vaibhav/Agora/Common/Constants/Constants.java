@@ -5,6 +5,7 @@ public class Constants {
         super();
     }
     public static final String BOOK = "book";
+    public static final String ISSUE = "book";
     public static final String FORWARD_SLASH ="/";
     public static final String ADD = "add";
     public static final String SUCCESSFUL = "successful";
