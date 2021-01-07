@@ -2,11 +2,14 @@ package com.vaibhav.Agora.Entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +18,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_detail")
-public class UserDetails  extends BaseEntity  implements Serializable {
+public class UserDetail  extends BaseEntity  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +33,11 @@ public class UserDetails  extends BaseEntity  implements Serializable {
     private List<Address> addresses;
     private UUID studentId;
 
-    public UserDetails() {
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userDetailId")
+    private User user;
+
+    public UserDetail() {
     }
 
     public UUID getUserDetailId() {
