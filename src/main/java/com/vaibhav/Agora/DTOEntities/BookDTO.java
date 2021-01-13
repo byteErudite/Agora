@@ -3,10 +3,12 @@ package com.vaibhav.Agora.DTOEntities;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vaibhav.Agora.Common.Constants.BookCategory;
 import com.vaibhav.Agora.Common.Constants.Genre;
-import com.vaibhav.Agora.Entities.Author;
 import com.vaibhav.Agora.Entities.BaseEntity;
+import com.vaibhav.Agora.Entities.BookUnit;
+import com.vaibhav.Agora.Entities.Rating;
 
 import java.io.Serializable;
+import java.util.Set;
 import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookDTO extends BaseEntity implements Serializable {
@@ -14,22 +16,27 @@ public class BookDTO extends BaseEntity implements Serializable {
 
     private UUID bookId;
     private String title;
-    private Author author;
+    private UUID authorId;
     private BookCategory category;
     private Genre genre;
-    private String publication;
+    private UUID publicationId;
     private String edition;
+    private String language;
+    private Set<BookUnit> bookUnits;
+    private Set<Rating> ratings;
 
     public BookDTO() {
     }
 
-    public BookDTO(String title, Author author, BookCategory category, Genre genre, String publication, String edition) {
+    public BookDTO(UUID bookId, String title, UUID authorId, BookCategory category, Genre genre, UUID publicationId, String edition, String language) {
+        this.bookId = bookId;
         this.title = title;
-        this.author = author;
+        this.authorId = authorId;
         this.category = category;
         this.genre = genre;
-        this.publication = publication;
+        this.publicationId = publicationId;
         this.edition = edition;
+        this.language = language;
     }
 
     public UUID getBookId() {
@@ -48,14 +55,6 @@ public class BookDTO extends BaseEntity implements Serializable {
         this.title = title;
     }
 
-    public Author getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(Author author) {
-        this.author = author;
-    }
-
     public BookCategory getCategory() {
         return category;
     }
@@ -68,16 +67,48 @@ public class BookDTO extends BaseEntity implements Serializable {
         return genre;
     }
 
+    public UUID getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(UUID authorId) {
+        this.authorId = authorId;
+    }
+
+    public UUID getPublicationId() {
+        return publicationId;
+    }
+
+    public void setPublicationId(UUID publicationId) {
+        this.publicationId = publicationId;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Set<BookUnit> getBookUnits() {
+        return bookUnits;
+    }
+
+    public void setBookUnits(Set<BookUnit> bookUnits) {
+        this.bookUnits = bookUnits;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
     public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public String getPublication() {
-        return publication;
-    }
-
-    public void setPublication(String publication) {
-        this.publication = publication;
     }
 
     public String getEdition() {

@@ -1,9 +1,11 @@
 package com.vaibhav.Agora.ServiceImpl;
 
+import com.vaibhav.Agora.CustomRepositories.BookCustomRepository;
 import com.vaibhav.Agora.DTOEntities.BookDTO;
 import com.vaibhav.Agora.Mapper.BookMapper;
 import com.vaibhav.Agora.Repositories.BookRepository;
 import com.vaibhav.Agora.Entities.Book;
+import com.vaibhav.Agora.RequestEntities.BookSearchRequest;
 import com.vaibhav.Agora.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,12 +25,14 @@ public class BookServiceImpl implements BookService {
     @Autowired
     BookRepository bookRepository;
 
+    BookCustomRepository bookCustomRepository;
+
     BookMapper bookMapper;
 
     @Override
-    public Page<Book> getAllBooks(Pageable pageable) throws Exception {
+    public List<BookDTO> getAllBooks(BookSearchRequest bookSearchRequest) throws Exception {
         try {
-            return bookRepository.findAll(pageable);
+            return bookCustomRepository.getBooks(bookSearchRequest);
         } catch(Exception e) {
             throw new Exception("Error while fetching data");
         }

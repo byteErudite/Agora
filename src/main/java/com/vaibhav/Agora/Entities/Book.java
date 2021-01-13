@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,6 +26,10 @@ import org.springframework.stereotype.Component;
 @Entity
 @Component
 @Table(name = "book")
+@NamedEntityGraph(name = "book_with_details", attributeNodes = {
+        @NamedAttributeNode(value = "bookUnits"), @NamedAttributeNode(value = "ratings")
+})
+@NamedEntityGraph(name = "book_without_details")
 public class Book extends BaseEntity implements  Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +39,6 @@ public class Book extends BaseEntity implements  Serializable {
     private UUID bookId;
     private String title;
 
-
     private UUID authorId;
 
     @Enumerated(EnumType.STRING)
@@ -42,13 +47,11 @@ public class Book extends BaseEntity implements  Serializable {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-
     private UUID publicationId;
     private String edition;
 
     @Enumerated(EnumType.STRING)
     private Language language;
-
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "bookId")

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class BookSearchRequest {
+    private List<UUID> bookIds;
     private List<UUID> bookUnitIds;
     private List<String> titles;
     private List<String> publications;
@@ -15,13 +16,22 @@ public class BookSearchRequest {
     private List<UUID> authorIds;
     private boolean isAvailable;
     private boolean isReserved;
-    private int rating;
+    private Integer rating;
     private List<String> editions;
-    private List<Genre> genre;
+    private List<Genre> genres;
     private List<BookCategory> categories;
     private Timestamp timeOfIssueStart;
     private Timestamp timeOfIssueEnd;
     private Timestamp addedDate;
+
+    public List<UUID> getBookIds() {
+        return bookIds;
+    }
+
+    public void setBookIds(List<UUID> bookIds) {
+        this.bookIds = bookIds;
+    }
+
 
     public List<UUID> getBookUnitIds() {
         return bookUnitIds;
@@ -79,11 +89,11 @@ public class BookSearchRequest {
         isReserved = reserved;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
@@ -95,12 +105,12 @@ public class BookSearchRequest {
         this.editions = editions;
     }
 
-    public List<Genre> getGenre() {
-        return genre;
+    public List<Genre> getGenres() {
+        return genres;
     }
 
-    public void setGenre(List<Genre> genre) {
-        this.genre = genre;
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
     }
 
     public List<BookCategory> getCategories() {
@@ -147,7 +157,7 @@ public class BookSearchRequest {
         sb.append(", isReserved=").append(isReserved);
         sb.append(", rating=").append(rating);
         sb.append(", editions=").append(editions);
-        sb.append(", genre=").append(genre);
+        sb.append(", genre=").append(genres);
         sb.append(", categories=").append(categories);
         sb.append(", timeOfIssueStart=").append(timeOfIssueStart);
         sb.append(", timeOfIssueEnd=").append(timeOfIssueEnd);
