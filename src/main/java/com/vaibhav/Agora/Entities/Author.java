@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "Author")
+@NamedEntityGraph(name = "with_books", attributeNodes = {})
 public class Author extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,7 +29,6 @@ public class Author extends BaseEntity implements Serializable {
     private UUID authorId;
 
     private String name;
-
 
     private String penName;
 
@@ -44,6 +46,12 @@ public class Author extends BaseEntity implements Serializable {
 
     public Author() {
         super();
+    }
+
+    public Author(String name, String penName) {
+        super();
+        this.name = name;
+        this.penName = penName;
     }
 
     public UUID getAuthorId() {

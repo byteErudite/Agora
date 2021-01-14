@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookService {
     BookMapper bookMapper;
 
     @Override
-    public List<BookDTO> getAllBooks(BookSearchRequest bookSearchRequest) throws Exception {
+    public List<BookDTO> searchBook(BookSearchRequest bookSearchRequest) throws Exception {
         try {
             return bookCustomRepository.getBooks(bookSearchRequest);
         } catch(Exception e) {
@@ -58,5 +58,10 @@ public class BookServiceImpl implements BookService {
         });
         response.put(FAILED_BOOK_IDS, failedBooks.toString());
         return response;
+    }
+
+    @Override
+    public List<Book> getAllBooks(){
+        return bookRepository.findAll();
     }
 }

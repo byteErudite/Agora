@@ -12,8 +12,10 @@ import java.util.Map;
 
 public interface BookService {
 
-    public List<BookDTO> getAllBooks(BookSearchRequest bookSearchRequest) throws Exception;
+    public List<BookDTO> searchBook(BookSearchRequest bookSearchRequest) throws Exception;
 
     public Map<String, String> addBooks(List<BookDTO> books);
+
+    public List<Book> getAllBooks();
 
 }

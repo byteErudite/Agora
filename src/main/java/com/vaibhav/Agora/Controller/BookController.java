@@ -27,6 +27,7 @@ import static com.vaibhav.Agora.Common.Constants.Constants.ADD;
 import static com.vaibhav.Agora.Common.Constants.Constants.ALL;
 import static com.vaibhav.Agora.Common.Constants.Constants.BOOK;
 import static com.vaibhav.Agora.Common.Constants.Constants.FORWARD_SLASH;
+import static com.vaibhav.Agora.Common.Constants.Constants.SEARCH;
 
 @RestController
 @RequestMapping(value = BOOK)
@@ -35,11 +36,16 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    @PostMapping(value = FORWARD_SLASH + ALL)
+    @GetMapping(value = FORWARD_SLASH + ALL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<String> addBook() {
+        return new ResponseEntity(bookService.getAllBooks(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = FORWARD_SLASH + SEARCH)
     public ResponseEntity<List<BookDTO>> getAllBooks(@RequestBody BookSearchRequest bookSearchRequest,
                                                      @RequestParam(required = false, defaultValue = "5") final Integer page,
                                                      @RequestParam(required = false, defaultValue = "50") final Integer size) throws Exception {
-        return new ResponseEntity<>(bookService.getAllBooks(bookSearchRequest), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.searchBook(bookSearchRequest), HttpStatus.OK);
     }
 
     @PostMapping(value = FORWARD_SLASH + ADD, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
