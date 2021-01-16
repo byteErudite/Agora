@@ -14,8 +14,8 @@ public interface BookService {
 
     public List<BookDTO> searchBook(BookSearchRequest bookSearchRequest) throws Exception;
 
-    public Map<String, String> addBooks(List<BookDTO> books);
+    public Map<String,List<Object>> addBooks(List<BookDTO> books) ;
 
-    public List<Book> getAllBooks();
+    public Page<Book> getAllBooks(int pageNo, int pageSize);
 
 }

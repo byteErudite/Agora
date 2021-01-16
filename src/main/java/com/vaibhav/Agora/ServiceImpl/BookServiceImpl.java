@@ -1,67 +1,103 @@
 package com.vaibhav.Agora.ServiceImpl;
 
+import com.vaibhav.Agora.Common.Utils.StringUtilities;
 import com.vaibhav.Agora.CustomRepositories.BookCustomRepository;
 import com.vaibhav.Agora.DTOEntities.BookDTO;
+import com.vaibhav.Agora.Entities.BookUnit;
 import com.vaibhav.Agora.Mapper.BookMapper;
 import com.vaibhav.Agora.Repositories.BookRepository;
 import com.vaibhav.Agora.Entities.Book;
+import com.vaibhav.Agora.Repositories.BookUnitRepository;
 import com.vaibhav.Agora.RequestEntities.BookSearchRequest;
 import com.vaibhav.Agora.Service.BookService;
+import org.apache.logging.log4j.util.Strings;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
-import static com.vaibhav.Agora.Common.Constants.Constants.FAILED_BOOK_IDS;
+import static com.vaibhav.Agora.Common.Constants.Constants.FAILED_BOOKS;
 
 @Service
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    BookRepository bookRepository;
+    private BookRepository bookRepository;
 
-    BookCustomRepository bookCustomRepository;
+    @Autowired
+    private BookUnitRepository bookUnitRepository;
 
-    BookMapper bookMapper;
+    private BookCustomRepository bookCustomRepository;
+
+    @Autowired
+    private BookMapper bookMapper;
 
     @Override
     public List<BookDTO> searchBook(BookSearchRequest bookSearchRequest) throws Exception {
         try {
             return bookCustomRepository.getBooks(bookSearchRequest);
-        } catch(Exception e) {
+        } catch (Exception e) {
             throw new Exception("Error while fetching data");
         }
 
     }
 
+    private boolean isEmpty(String str) {
+        return Objects.isNull(str) || Strings.isEmpty(str);
+    }
 
     private boolean isValid(BookDTO book) {
+        if (isEmpty(book.getTitle()) || Objects.nonNull(book.getGenre()) || isEmpty(book.getLanguage()) || Objects.nonNull(book.getCategory())) {
+            return false;
+        }
         return true;
     }
 
     @Override
-    public Map<String,String> addBooks(List<BookDTO> books) {
-        List<String> failedBooks = new ArrayList<>();
-        Map<String,String> response = new HashMap<>();
+    @Transactional
+    public Map<String, List<Object>> addBooks(List<BookDTO> books) {
+
+        Map<String, List<Object>> response = new HashMap<>();
+        List<Object> failedBooks = new ArrayList<>();
         books.stream().forEach(bookDTO -> {
             try {
                 isValid(bookDTO);
-                bookRepository.save(bookMapper.BookDTOToBookMapper(bookDTO));
+                Book book = bookMapper.BookDTOToBook(bookDTO);
+               // saveBookUnits(bookDTO.getBookUnits(), response);
+                bookRepository.save(bookMapper.BookDTOToBook(bookDTO));
             } catch (Exception e) {
-               failedBooks.add(bookDTO.getBookId().toString());
+                failedBooks.add(bookDTO);
             }
         });
-        response.put(FAILED_BOOK_IDS, failedBooks.toString());
+        response.put(FAILED_BOOKS, failedBooks);
         return response;
     }
 
+    private void saveBookUnits(Set<BookUnit> bookUnits, Map<String, List<Object>> failedObjects) {
+        List<Object> failedBookUnits = new ArrayList<>();
+        bookUnits.stream().forEach(bookUnit -> {
+            if (StringUtilities.isNotEmpty(bookUnit.getIsbn())) {
+                bookUnitRepository.save(bookUnit);
+            } else {
+                failedBookUnits.add(bookUnit);
+            }
+        });
+        failedObjects.put("failedBookUnits", failedBookUnits);
+    }
+
     @Override
-    public List<Book> getAllBooks(){
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        return bookRepository.findAll(pageable);
     }
 }

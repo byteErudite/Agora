@@ -5,6 +5,7 @@ public class Constants {
         super();
     }
     public static final String BOOK = "book";
+    public static final String PUBLICATION = "publication";
     public static final String ISSUE = "book";
     public static final String FORWARD_SLASH ="/";
     public static final String ADD = "add";
@@ -19,5 +20,5 @@ public class Constants {
     public static final String AUTHOR = "author";
     public static final String SUCCESS = "success";
     public static final String FAILURE = "failure";
-    public static final String FAILED_BOOK_IDS = "failed book ids";
+    public static final String FAILED_BOOKS = "failed Books";
 }

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.DiscriminatorColumn;
 import java.util.List;
 
 
@@ -37,14 +36,15 @@ public class BookController {
     BookService bookService;
 
     @GetMapping(value = FORWARD_SLASH + ALL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<String> addBook() {
-        return new ResponseEntity(bookService.getAllBooks(), HttpStatus.OK);
+    public ResponseEntity<String> getAllBooks(@RequestParam(required = false, defaultValue = "1") final Integer pageNo,
+                                              @RequestParam(required = false, defaultValue = "20") final Integer pageSize) {
+        return new ResponseEntity(bookService.getAllBooks(pageNo, pageSize), HttpStatus.OK);
     }
 
     @PostMapping(value = FORWARD_SLASH + SEARCH)
-    public ResponseEntity<List<BookDTO>> getAllBooks(@RequestBody BookSearchRequest bookSearchRequest,
-                                                     @RequestParam(required = false, defaultValue = "5") final Integer page,
-                                                     @RequestParam(required = false, defaultValue = "50") final Integer size) throws Exception {
+    public ResponseEntity<List<BookDTO>> searchBook(@RequestBody BookSearchRequest bookSearchRequest,
+                                                     @RequestParam(required = false, defaultValue = "5") final Integer pageNo,
+                                                     @RequestParam(required = false, defaultValue = "50") final Integer pageSize) throws Exception {
         return new ResponseEntity<>(bookService.searchBook(bookSearchRequest), HttpStatus.OK);
     }
 

@@ -35,7 +35,7 @@ public class AgoraUserDetailService implements UserDetailsService {
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("Invalid username : " + username);
         }
-        List<UUID> roleIds = userRoleRepository.getUserRolebyUserId(user.getUserId());
+        List<UUID> roleIds = userRoleRepository.getUserRoleIdbyUserId(user.getUserId());
         List<AssignedRole> roles = roleRepository.findAllById(roleIds).stream().map(Role::getRole).collect(Collectors.toList());
         return new AgoraUserDetail(user, roles);
     }

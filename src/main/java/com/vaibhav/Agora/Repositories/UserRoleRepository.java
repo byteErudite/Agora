@@ -13,6 +13,9 @@ import java.util.UUID;
 @Transactional
 public interface UserRoleRepository extends JpaRepository<UserRole, UUID> {
     @Query(value = "select roleId from UserRole where userId = :userId ")
-    public List<UUID> getUserRolebyUserId(UUID userId);
+    public List<UUID> getUserRoleIdbyUserId(UUID userId);
+
+    @Query(value = "select ur from UserRole ur where userId = :userId ")
+    public List<UserRole> getUserRolebyUserId(UUID userId);
 
 }

@@ -36,7 +36,7 @@ public class AuthorController {
         return new ResponseEntity<>(authorService.getAllAuthors(name, penName), HttpStatus.OK);
     }
 
-    @GetMapping(value = FORWARD_SLASH + SEARCH + "{authorId}")
+    @GetMapping(value = FORWARD_SLASH + SEARCH + FORWARD_SLASH + "{authorId}")
     public ResponseEntity<Author> getByAuthorId(@PathVariable("authorId") UUID authorId) throws Exception {
         return new ResponseEntity<>(authorService.getAuthorById(authorId), HttpStatus.OK);
     }

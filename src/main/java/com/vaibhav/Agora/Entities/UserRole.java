@@ -25,6 +25,11 @@ public class UserRole extends BaseEntity  implements Serializable {
     public UserRole() {
     }
 
+    public UserRole(UUID userId, UUID roleId) {
+        this.userId = userId;
+        this.roleId = roleId;
+    }
+
     public UUID getUserRoleId() {
         return userRoleId;
     }

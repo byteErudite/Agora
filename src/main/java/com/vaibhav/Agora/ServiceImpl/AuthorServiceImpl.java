@@ -18,8 +18,6 @@ import java.util.UUID;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-   
-
     @Autowired
     AuthorRepository authorRepository;
 
@@ -28,11 +26,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     public List<Author> getAllAuthors(String name, String penName) {
         List<Author> authors;
-        if(StringUtilities.isNotEmpty(name) && StringUtilities.isNotEmpty(penName)) {
+        if (StringUtilities.isNotEmpty(name) && StringUtilities.isNotEmpty(penName)) {
             return authorRepository.getAuthorsByNameAndPenName(name, penName);
-        } else if(StringUtilities.isNotEmpty(name)) {
+        } else if (StringUtilities.isNotEmpty(name)) {
             return authorRepository.getAuthorsByName(name);
-        } else if(StringUtilities.isNotEmpty(penName)) {
+        } else if (StringUtilities.isNotEmpty(penName)) {
             return authorRepository.getAuthorsByPenName(penName);
         }
 
@@ -41,18 +39,18 @@ public class AuthorServiceImpl implements AuthorService {
 
     public Author getAuthorById(UUID authorId) throws Exception {
         Optional<Author> author = authorRepository.findById(authorId);
-        if(!author.isPresent()) {
+        if (!author.isPresent()) {
             throw new Exception("Invalid author id");
         }
         return author.get();
     }
 
     public String createAuthor(Author author) throws Exception {
-        if(Objects.isNull(author) || Objects.isNull(author.getName())){
+        if (Objects.isNull(author) || Objects.isNull(author.getName())) {
             throw new Exception("Invalid request, name cannot be null");
         }
         Author newAuthor = new Author(author.getName(), author.getPenName());
         Author id = authorRepository.save(newAuthor);
-        return "author created with id: "+author.getAuthorId();
+        return "author created with id: " + id;
     }
 }

@@ -22,8 +22,7 @@ public class BookDTO extends BaseEntity implements Serializable {
     private UUID publicationId;
     private String edition;
     private String language;
-    private Set<BookUnit> bookUnits;
-    private Set<Rating> ratings;
+    private Set<BookUnitDTO> bookUnits;
 
     public BookDTO() {
     }
@@ -91,20 +90,12 @@ public class BookDTO extends BaseEntity implements Serializable {
         this.language = language;
     }
 
-    public Set<BookUnit> getBookUnits() {
+    public Set<BookUnitDTO> getBookUnits() {
         return bookUnits;
     }
 
-    public void setBookUnits(Set<BookUnit> bookUnits) {
+    public void setBookUnits(Set<BookUnitDTO> bookUnits) {
         this.bookUnits = bookUnits;
-    }
-
-    public Set<Rating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(Set<Rating> ratings) {
-        this.ratings = ratings;
     }
 
     public void setGenre(Genre genre) {
