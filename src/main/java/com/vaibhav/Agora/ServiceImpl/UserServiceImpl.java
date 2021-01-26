@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private boolean isAdminUser() {
+    @Override
+    public boolean isAdminUser() {
         AgoraUserDetail loggedInUser = (AgoraUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUsername(loggedInUser.getUsername());
         List<UserRole> userRoles = userRoleRepository.getUserRolebyUserId(user.getUserId());
@@ -100,5 +101,11 @@ public class UserServiceImpl implements UserService {
            });
        }
        return "success";
+    }
+
+    @Override
+    public User getPricipalUser() {
+        AgoraUserDetail loggedInUser = (AgoraUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByUsername(loggedInUser.getUsername());
     }
 }

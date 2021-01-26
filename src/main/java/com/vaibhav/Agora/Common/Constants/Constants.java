@@ -6,7 +6,7 @@ public class Constants {
     }
     public static final String BOOK = "book";
     public static final String PUBLICATION = "publication";
-    public static final String ISSUE = "book";
+    public static final String ISSUE = "issue";
     public static final String FORWARD_SLASH ="/";
     public static final String ADD = "add";
     public static final String SEARCH = "search";
@@ -21,4 +21,6 @@ public class Constants {
     public static final String SUCCESS = "success";
     public static final String FAILURE = "failure";
     public static final String FAILED_BOOKS = "failed Books";
+
+    public static Integer DEFAULT_ISSUE_PERIOD = 10;
 }

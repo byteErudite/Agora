@@ -1,9 +1,11 @@
 package com.vaibhav.Agora.Controller;
 
 import com.vaibhav.Agora.DTOEntities.BookDTO;
+import com.vaibhav.Agora.DTOEntities.BookUnitDTO;
 import com.vaibhav.Agora.Entities.Book;
 import com.vaibhav.Agora.RequestEntities.BookSearchRequest;
 import com.vaibhav.Agora.Service.BookService;
+import com.vaibhav.Agora.Service.BookUnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import java.util.Map;
 
 
 import static com.vaibhav.Agora.Common.Constants.Constants.ADD;
@@ -34,6 +36,8 @@ public class BookController {
 
     @Autowired
     BookService bookService;
+    @Autowired
+    BookUnitService bookUnitService;
 
     @GetMapping(value = FORWARD_SLASH + ALL, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getAllBooks(@RequestParam(required = false, defaultValue = "1") final Integer pageNo,
@@ -46,6 +50,11 @@ public class BookController {
                                                      @RequestParam(required = false, defaultValue = "5") final Integer pageNo,
                                                      @RequestParam(required = false, defaultValue = "50") final Integer pageSize) throws Exception {
         return new ResponseEntity<>(bookService.searchBook(bookSearchRequest), HttpStatus.OK);
+    }
+
+    @PostMapping(value = FORWARD_SLASH + "addunit")
+    public ResponseEntity<Map<Object, String>> addBookUnit(@RequestBody List<BookUnitDTO> bookUnitDTOS) throws Exception {
+        return new ResponseEntity<>(bookUnitService.addBookUnits(bookUnitDTOS), HttpStatus.OK);
     }
 
     @PostMapping(value = FORWARD_SLASH + ADD, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

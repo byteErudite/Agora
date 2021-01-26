@@ -12,4 +12,6 @@ public interface UserService {
     public String removeUser(UUID userId);
     public User retrieveUser(UUID userId) throws Exception;
     public String updateUserRoles(List<UserRole> userRoles);
+    public User getPricipalUser();
+    public boolean isAdminUser();
 }

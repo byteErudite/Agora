@@ -14,17 +14,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@Repository
+
 @Component
 public class BookCustomRepository {
 
     @Autowired
     BasicCustomRepository basicCustomRepository;
 
-    private String BOOK_RETRIVEL_QUERY = "Select new BookDTO(b.bookId as bookId, b.title as title, " + "" +
-            " b.authorId as authorId, b.category as category, b.genre as genre, b.publicationId as publicationId, b.edition as edition, " + "" +
-            " b.language as language, b.authorId as authorId, b.authorId as authorId,  )  ";
-    private String BOOK_FROM_CLAUSE = "From book b join b.bookUnits bu join b.ratings r";
+    private String BOOK_RETRIVEL_QUERY = "Select distinct new com.vaibhav.Agora.DTOEntities.BookDTO " +
+            "( b.bookId as bookId, " +
+            "b.title as title, " +
+            "b.authorId as authorId, " +
+            "b.category as category, " +
+            "b.genre as genre, " +
+            "b.publicationId as publicationId, " +
+            "b.edition as edition, " +
+            "b.language as language, " +
+            "(Select count(*) from BookUnit bu where bu.isAvailable = true and bu.bookId = b.bookId ) as availableCount , " +
+            "(Select avg(r.rating) from Rating r where r.bookId = b.bookId )   as averageRating ) ";
+
+    private String BOOK_FROM_CLAUSE = "from Book b  ";
 
 
 
@@ -42,65 +51,57 @@ public class BookCustomRepository {
     private String generateWhereQueryForBookSearch(BookSearchRequest bookSearchRequest, Map<String, Object> parameters) {
         StringBuilder whereQuery = new StringBuilder(" where ");
         if (Utilities.isNotEmpty(bookSearchRequest.getBookIds())) {
-            parameters.put("bookIds", bookSearchRequest.getBookUnitIds());
-            whereQuery.append(" b.bookId in :(bookIds)");
+            parameters.put("bookIds", bookSearchRequest.getBookIds());
+            whereQuery.append(" bookId in (:bookIds) and ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getAuthorIds())) {
             parameters.put("authorIds", bookSearchRequest.getAuthorIds());
-            whereQuery.append(" b.authorId in :(authorIds)");
+            whereQuery.append(" authorId in (:authorIds) and ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getBookUnitIds())) {
             parameters.put("bookUnitIds", bookSearchRequest.getBookUnitIds());
-            whereQuery.append(" b.bookUnitId in :(bookUnitIds)");
+            whereQuery.append(" bookUnitId in (:bookUnitIds) and ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getCategories())) {
             parameters.put("categories", bookSearchRequest.getCategories());
-            whereQuery.append(" b.category in :(categories)");
+            whereQuery.append(" category in (:categories) and ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getGenres())) {
             parameters.put("genres", bookSearchRequest.getGenres());
-            whereQuery.append(" b.genre in :(genres)");
+            whereQuery.append(" genre in (:genres) and ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getEditions())) {
             parameters.put("editions", bookSearchRequest.getEditions());
-            whereQuery.append(" b.edition in :(editions)");
+            whereQuery.append(" edition in (:editions) and ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getPublications())) {
             parameters.put("publications", bookSearchRequest.getBookUnitIds());
-            whereQuery.append(" b.publication in :(publications)");
+            whereQuery.append(" publication in (:publications) and  ");
         }
 
         if (Utilities.isNotEmpty(bookSearchRequest.getTitles())) {
             parameters.put("titles", bookSearchRequest.getTitles());
-            whereQuery.append(" b.titles in :(titles)");
-        }
-
-        if (Objects.nonNull(bookSearchRequest.isAvailable())) {
-            parameters.put("isAvailable", bookSearchRequest.isAvailable());
-            whereQuery.append(" bu.isAvailable is :isAvailable");
-        }
-
-        if (Objects.nonNull(bookSearchRequest.isReserved())) {
-            parameters.put("isReserved", bookSearchRequest.isReserved());
-            whereQuery.append(" bu.isReserved is :isReserved");
+            whereQuery.append(" titles in (:titles) and ");
         }
 
         if (Objects.nonNull(bookSearchRequest.getRating())) {
             parameters.put("rating", bookSearchRequest.getRating());
-            whereQuery.append(" b.rating > :rating");
+            whereQuery.append(" averageRating > :rating and ");
         }
 
         if (Objects.nonNull(bookSearchRequest.getRating())) {
             parameters.put("addedDate", bookSearchRequest.getAddedDate());
-            whereQuery.append(" b.added_date > :addedDate");
+            whereQuery.append(" added_date > :addedDate and ");
         }
-
-        return whereQuery.toString();
+        if(whereQuery.length() < 8) {
+            return " ";
+        }
+        return whereQuery.substring(0, whereQuery.length()-4);
     }
 }

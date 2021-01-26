@@ -21,6 +21,7 @@ public class PublicationServiceImpl implements PublicationService {
     @Autowired
     PublicationRepository publicationRepository;
 
+    @Autowired
     PublicationMapper publicationMapper;
 
     @Override

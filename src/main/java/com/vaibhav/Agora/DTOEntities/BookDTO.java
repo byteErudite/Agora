@@ -3,9 +3,8 @@ package com.vaibhav.Agora.DTOEntities;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vaibhav.Agora.Common.Constants.BookCategory;
 import com.vaibhav.Agora.Common.Constants.Genre;
+import com.vaibhav.Agora.Common.Constants.Language;
 import com.vaibhav.Agora.Entities.BaseEntity;
-import com.vaibhav.Agora.Entities.BookUnit;
-import com.vaibhav.Agora.Entities.Rating;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -21,13 +20,16 @@ public class BookDTO extends BaseEntity implements Serializable {
     private Genre genre;
     private UUID publicationId;
     private String edition;
-    private String language;
+    private Language language;
     private Set<BookUnitDTO> bookUnits;
+    private long availableCount;
+    private Double averageRating;
 
     public BookDTO() {
     }
 
-    public BookDTO(UUID bookId, String title, UUID authorId, BookCategory category, Genre genre, UUID publicationId, String edition, String language) {
+    public BookDTO(UUID bookId, String title, UUID authorId, BookCategory category, Genre genre,
+                   UUID publicationId, String edition, Language language, long availableCount, Double averageRating) {
         this.bookId = bookId;
         this.title = title;
         this.authorId = authorId;
@@ -36,6 +38,8 @@ public class BookDTO extends BaseEntity implements Serializable {
         this.publicationId = publicationId;
         this.edition = edition;
         this.language = language;
+        this.availableCount = availableCount;
+        this.averageRating = averageRating;
     }
 
     public UUID getBookId() {
@@ -66,6 +70,22 @@ public class BookDTO extends BaseEntity implements Serializable {
         return genre;
     }
 
+    public long getAvailableCount() {
+        return availableCount;
+    }
+
+    public void setAvailableCount(long availableCount) {
+        this.availableCount = availableCount;
+    }
+
+    public Double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
     public UUID getAuthorId() {
         return authorId;
     }
@@ -82,11 +102,12 @@ public class BookDTO extends BaseEntity implements Serializable {
         this.publicationId = publicationId;
     }
 
-    public String getLanguage() {
+
+    public Language getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(Language language) {
         this.language = language;
     }
 

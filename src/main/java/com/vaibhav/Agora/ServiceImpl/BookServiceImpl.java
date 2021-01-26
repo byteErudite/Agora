@@ -10,15 +10,16 @@ import com.vaibhav.Agora.Entities.Book;
 import com.vaibhav.Agora.Repositories.BookUnitRepository;
 import com.vaibhav.Agora.RequestEntities.BookSearchRequest;
 import com.vaibhav.Agora.Service.BookService;
+import com.vaibhav.Agora.Service.NotificationService;
 import org.apache.logging.log4j.util.Strings;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +38,14 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookUnitRepository bookUnitRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
     private BookCustomRepository bookCustomRepository;
 
     @Autowired
-    private BookMapper bookMapper;
+    BookMapper bookMapper;
 
     @Override
     public List<BookDTO> searchBook(BookSearchRequest bookSearchRequest) throws Exception {
@@ -57,14 +62,13 @@ public class BookServiceImpl implements BookService {
     }
 
     private boolean isValid(BookDTO book) {
-        if (isEmpty(book.getTitle()) || Objects.nonNull(book.getGenre()) || isEmpty(book.getLanguage()) || Objects.nonNull(book.getCategory())) {
+        if (isEmpty(book.getTitle()) || Objects.nonNull(book.getGenre()) || Objects.nonNull(book.getLanguage()) || Objects.nonNull(book.getCategory())) {
             return false;
         }
         return true;
     }
 
     @Override
-    @Transactional
     public Map<String, List<Object>> addBooks(List<BookDTO> books) {
 
         Map<String, List<Object>> response = new HashMap<>();
@@ -84,6 +88,9 @@ public class BookServiceImpl implements BookService {
     }
 
     private void saveBookUnits(Set<BookUnit> bookUnits, Map<String, List<Object>> failedObjects) {
+        if(CollectionUtils.isEmpty(bookUnits)) {
+            return;
+        }
         List<Object> failedBookUnits = new ArrayList<>();
         bookUnits.stream().forEach(bookUnit -> {
             if (StringUtilities.isNotEmpty(bookUnit.getIsbn())) {
@@ -98,6 +105,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Page<Book> getAllBooks(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+        notificationService.sendEmail("raghuvanshivibhu@gmail.com", "test", "Just checking email service");
         return bookRepository.findAll(pageable);
     }
 }

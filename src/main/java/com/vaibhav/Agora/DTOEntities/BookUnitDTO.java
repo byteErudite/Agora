@@ -1,42 +1,35 @@
 package com.vaibhav.Agora.DTOEntities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookUnitDTO implements Serializable {
-    private UUID bookUnitId;
-    private Boolean isAvailable;
-    private Boolean isReserved;
+
+    private boolean isAvailable;
+    private boolean isReserved;
     private String isbn;
     private UUID bookId;
 
     public BookUnitDTO() {
     }
 
-    public UUID getBookUnitId() {
-        return bookUnitId;
-    }
 
-    public void setBookUnitId(UUID bookUnitId) {
-        this.bookUnitId = bookUnitId;
-    }
-
-    public Boolean getAvailable() {
+    public boolean getAvailable() {
         return isAvailable;
     }
 
-    public void setAvailable(Boolean available) {
+    public void setAvailable(boolean available) {
         isAvailable = available;
     }
 
-    public Boolean getReserved() {
+    public boolean getReserved() {
         return isReserved;
     }
 
-    public void setReserved(Boolean reserved) {
+    public void setReserved(boolean reserved) {
         isReserved = reserved;
     }
 
