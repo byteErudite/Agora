@@ -1,15 +1,16 @@
 package com.vaibhav.Agora.DTOEntities;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public class IssuesReport {
-    public String bookId;
-    public String bookName;
-    public UUID bookUnitId;
-    public Date issueDate;
-    public Date returnDate;
-    public Date issuedTill;
+    private String bookId;
+    private String bookName;
+    private UUID bookUnitId;
+    private Timestamp issueDate;
+    private Timestamp returnDate;
+    private Timestamp issuedTill;
 
     public String getBookId() {
         return bookId;
@@ -35,34 +36,34 @@ public class IssuesReport {
         this.bookUnitId = bookUnitId;
     }
 
-    public Date getIssueDate() {
+    public Timestamp getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(Date issueDate) {
+    public void setIssueDate(Timestamp issueDate) {
         this.issueDate = issueDate;
     }
 
-    public Date getReturnDate() {
+    public Timestamp getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
     }
 
-    public Date getIssuedTill() {
+    public Timestamp getIssuedTill() {
         return issuedTill;
     }
 
-    public void setIssuedTill(Date issuedTill) {
+    public void setIssuedTill(Timestamp issuedTill) {
         this.issuedTill = issuedTill;
     }
 
     public IssuesReport() {
     }
 
-    public IssuesReport(String bookId, String bookName, UUID bookUnitId, Date issueDate, Date returnDate, Date issuedTill) {
+    public IssuesReport(String bookId, String bookName, UUID bookUnitId, Timestamp issueDate, Timestamp returnDate, Timestamp issuedTill) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.bookUnitId = bookUnitId;
