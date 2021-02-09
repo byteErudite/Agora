@@ -2,12 +2,9 @@ package com.vaibhav.Agora.CustomRepositories;
 
 import com.vaibhav.Agora.Common.Utils.Utilities;
 import com.vaibhav.Agora.DTOEntities.BookDTO;
-import com.vaibhav.Agora.Entities.Book;
-import com.vaibhav.Agora.Entities.BookUnit;
 import com.vaibhav.Agora.RequestEntities.BookSearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;

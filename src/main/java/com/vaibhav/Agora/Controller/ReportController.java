@@ -29,6 +29,7 @@ import static com.vaibhav.Agora.Common.Constants.Constants.PUBLICATION;
 @RequestMapping(value = "report")
 public class ReportController {
 
+
     @Autowired
     ReportService reportService;
 
@@ -40,12 +41,15 @@ public class ReportController {
     @PostMapping(value = FORWARD_SLASH + "pdf", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<byte[]> addBook(@RequestBody final String books) throws Exception {
         try {
+            int[][] arr = new int[6][6];
+           
             byte[] pdfBytes = reportService.generatePdfReport(new ArrayList<>()).readAllBytes();
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION,
                             "attachment; filename=\"" + "issueHistoryReport"  + ".pdf" + "\"")
                     .contentType(MediaType.parseMediaType("application/octet-stream")).body(pdfBytes);
         } catch(Exception e) {
+
             throw new Exception("Failure in generating pdf");
         }
 

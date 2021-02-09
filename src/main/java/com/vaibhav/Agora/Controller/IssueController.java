@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.vaibhav.Agora.Common.Constants.Constants.ISSUE;
 
@@ -23,13 +24,15 @@ public class IssueController {
     IssueService issueService;
 
     @PostMapping()
-    public ResponseEntity<List<String>> issueBook(@RequestBody BookIssueRequest bookIssueRequest) throws Exception {
-        return new ResponseEntity<>(issueService.issueBook(bookIssueRequest), HttpStatus.OK);
+    public ResponseEntity<String> issueBook(@RequestBody BookIssueRequest bookIssueRequest) throws Exception {
+        issueService.raiseIssueRequest(bookIssueRequest);
+        return new ResponseEntity<>("sucess", HttpStatus.OK);
     }
 
     @PostMapping(value = "/return")
-    public ResponseEntity<String> returnBook(@RequestBody BookIssueRequest bookIssueRequest) throws Exception {
-        return new ResponseEntity<>(issueService.returnBook(bookIssueRequest), HttpStatus.OK);
+    public ResponseEntity<String> returnBook(@RequestBody List<UUID> bookUnitIds) throws Exception {
+       issueService.raiseReturnRequest(bookUnitIds);
+        return new ResponseEntity<>("sucess", HttpStatus.OK);
     }
 
 }

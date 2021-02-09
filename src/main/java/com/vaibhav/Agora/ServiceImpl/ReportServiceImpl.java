@@ -1,11 +1,19 @@
 package com.vaibhav.Agora.ServiceImpl;
 
+import com.itextpdf.io.font.FontCache;
+import com.itextpdf.io.font.FontProgramDescriptorFactory;
+import com.itextpdf.kernel.color.Color;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Tab;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.element.Text;
 import com.vaibhav.Agora.CustomRepositories.BookIssueCustomRepository;
 import com.vaibhav.Agora.DTOEntities.IssuesReport;
 import com.vaibhav.Agora.RequestEntities.IssueHistoryReportRequest;
@@ -14,8 +22,10 @@ import com.vaibhav.Agora.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.StyleConstants;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -46,7 +56,7 @@ public class ReportServiceImpl implements ReportService {
         return  "sucess";
     }
 
-    public InputStream generatePdfReport(List<IssuesReport> issuesReports) {
+    public InputStream generatePdfReport(List<IssuesReport> issuesReports) throws IOException {
         IssuesReport issuesReport = new IssuesReport();
         issuesReport.setBookName("harry potter");
         issuesReport.setIssueDate(Timestamp.from(Instant.now()));
@@ -58,15 +68,21 @@ public class ReportServiceImpl implements ReportService {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PdfDocument pdfDocument = new PdfDocument(new PdfWriter(byteArrayOutputStream));
         Document document = new Document(pdfDocument, PageSize.A4.rotate());
-
-        float[] columnsAndWidth = { 200F, 150F, 150F, 150F, 150F };
+        PdfFont font = PdfFontFactory.createFont();
+        Text title = new Text("Issue History Report").setBold().setFontSize(15).setStrokeColor(Color.RED).setFont(font);
+        Text userName = new Text("Vaibhav Singh");
+        Text nameHeader = new Text("Name : ").setBold().setFont(font).setStrokeColor(Color.GREEN);
+        document.add(new Paragraph().add(new Tab()).add(new Tab()).add(title));
+        document.add(new Paragraph().add(nameHeader).add(userName));
+        document.add(new Paragraph());
+        float[] columnsAndWidth = { 200F, 150F, 150F, 150F };
         Table table = new Table(columnsAndWidth);
         addCell(table,"Book Name");
         addCell(table,"Issued On");
         addCell(table,"Returned On");
         addCell(table,"Issued Til");
         for(IssuesReport ir : issuesReports) {
-            table.addCell(ir.getBookName());
+            addCell(table, ir.getBookName());
             addCell(table, ir.getIssueDate().toString());
             addCell(table, ir.getReturnDate().toString());
             addCell(table, ir.getIssuedTill().toString());
